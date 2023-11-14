@@ -25,7 +25,7 @@ def get_optimal(job_dict, opt_sign):
 
 
 class JobEnv:
-    def __init__(self, case_name, path, only_PDR=False):
+    def __init__(self, case_name, path, only_PDR=False, only_min=False):
         self.PDRs = {"SPT": "min", "MWKR": "max", "FDD/MWKR": "min", "MOPNR": "max", "LRM": "max", "FIFO": "max",
                      "LPT": "max", "LWKR": "min", "FDD/LWKR": "max", "LOPNR": "min", "SRM": "min", "LIFO": "min"}
         self.pdr_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO",
@@ -70,12 +70,12 @@ class JobEnv:
         self.job_num = int(self.m_n[0])
         self.machine_num = int(self.m_n[1])
         self.only_use_PDR = only_PDR
-        if self.only_use_PDR:
+        if only_PDR or only_min:
             self.num_of_machine_pdr = 1  # only use min operation
         else:
             self.num_of_machine_pdr = 2  # min, max and random
-        # self.action_num = int(len(self.pdr_label)/2) * self.num_of_machine_pdr
-        self.action_num = len(self.pdr_label) * self.num_of_machine_pdr
+        self.action_num = int(len(self.pdr_label)/2) * self.num_of_machine_pdr
+        # self.action_num = len(self.pdr_label) * self.num_of_machine_pdr
         self.max_job = self.job_num
         self.max_machine = self.machine_num
         self.current_time = 0  # current time
@@ -344,12 +344,12 @@ class JobEnv:
 
 
 if __name__ == '__main__':
-    path = "MK/"
+    path = "../MK/"
     PDR_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO", "LPT", "LWKR", "FDD/LWKR", "LOPNR", "SRM", "LIFO"]
     results = pd.DataFrame(columns=PDR_label, dtype=int)
     for file_name in os.listdir(path):
         title = file_name.split('.')[0]  # file name
-        env = JobEnv(title, path, only_PDR=True)
+        env = JobEnv(title, path, only_PDR=False, only_min=True)
         case_result = []
         for pdr in range(len(PDR_label)):
             env.reset()
@@ -361,4 +361,4 @@ if __name__ == '__main__':
             # env.draw_gantt()
         results.loc[title] = case_result
         print(title + str(case_result))
-    results.to_csv("12PDR-MK.csv")
+    results.to_csv("PDR-MK-min.csv")

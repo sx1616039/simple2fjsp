@@ -235,10 +235,10 @@ class PPO:
 
 
 if __name__ == '__main__':
-    prefix = "12-area-simple2-fjsp-2000-9202-v"
+    prefix = "6-area-simple2-fjsp-0999-9202-rdata"
     param = [prefix, "converged_iterations", "total_time", 'min']
-    path = "../MK/"
-    for i in range(3):
+    path = "../Hurink/rdata/"
+    for i in range(2):
         name = prefix + str(i)
         simple_results = pd.DataFrame(columns=param, dtype=int)
         for file_name in os.listdir(path):
