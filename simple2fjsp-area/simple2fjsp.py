@@ -215,7 +215,7 @@ class JobEnv:
         start_time = self.next_time_on_machine[machine_id-1]
         self.next_time_on_machine[machine_id-1] += process_time
         end_time = start_time + process_time
-        self.result_dict[job_id+1, machine_id] = start_time, end_time, process_time
+        self.result_dict[job_id, self.current_op_of_job[job_id]] = start_time, end_time, process_time, machine_id
 
         self.last_release_time[job_id] = self.current_time
         self.busy_job[job_id] = True
@@ -334,8 +334,8 @@ class JobEnv:
         colors = ['#%06X' % random.randint(0, 256 ** 3 - 1) for _ in range(30)]
         # print(len(self.result_dict))
         for k, v in self.result_dict.items():
-            plt.barh(y=k[1]-1, width=v[2], left=v[0], edgecolor="black", color=colors[round(k[0])])
-            plt.text(((v[0] + v[1]) / 2), k[1]-1, str(round(k[0])), fontdict=font_dict)
+            plt.barh(y=v[3] - 1, width=v[2], left=v[0], edgecolor="black", color=colors[round(k[0])])
+            plt.text(((v[0] + v[1]) / 2), v[3] - 1, str(round(k[0])), fontdict=font_dict)
         plt.yticks([i - 1 for i in range(self.machine_num + 1)], machine_labels)
         plt.title(self.case_name)
         plt.xlabel("time")
@@ -358,7 +358,7 @@ if __name__ == '__main__':
                 cnt += 1
                 env.step(pdr)
             case_result.append(str(env.current_time))
-            # env.draw_gantt()
+            env.draw_gantt()
         results.loc[title] = case_result
         print(title + str(case_result))
     results.to_csv("PDR-MK-min.csv")
