@@ -8,7 +8,7 @@ if __name__ == "__main__":
                 'la21', 'la22', 'la23', 'la24', 'la25', 'la26', 'la27', 'la28', 'la29', 'la30',
                 'la31', 'la32', 'la33', 'la34', 'la35', 'la36', 'la37', 'la38', 'la39', 'la40', ]
     x_labels1 = ['MK1', 'MK2', 'MK3', 'MK4', 'MK5', 'MK6', 'MK7', 'MK8', 'MK9', 'MK10']
-d
+
     trajectories = pd.read_excel("draw_makespan_time/simple-trajectory.xls")
     traj = trajectories.values[:, 1:6]
     time = pd.read_excel("draw_makespan_time/simple-time.xls")
