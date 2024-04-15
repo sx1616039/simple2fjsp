@@ -235,10 +235,10 @@ class PPO:
 
 
 if __name__ == '__main__':
-    prefix = "6-area-simple2-fjsp-0999-9202-rdata"
+    prefix = "6-area-simple2-fjsp-0999-param-opt-2-"
     param = [prefix, "converged_iterations", "total_time", 'min']
-    path = "../Hurink/rdata/"
-    for i in range(2):
+    path = "../param-opt-datasets/"
+    for i in range(9):
         name = prefix + str(i)
         simple_results = pd.DataFrame(columns=param, dtype=int)
         for file_name in os.listdir(path):
@@ -247,7 +247,7 @@ if __name__ == '__main__':
             basic_model = file_name.split('_')[0]
             env = JobEnv(title, path)
             scale = env.scale
-            model = PPO(env, unit_num=env.state_num, memory_size=9, batch_size=2 * scale, clip_ep=0.2)
+            model = PPO(env, unit_num=env.state_num, memory_size=3*(i//3+1), batch_size=(i % 3+1) * scale, clip_ep=0.2)
             simple_results.loc[title] = model.train(title, is_reschedule=False)
             # simple_results.loc[title] = model.train(basic_model, is_reschedule=True)
             # simple_results.loc[title] = model.test(basic_model)

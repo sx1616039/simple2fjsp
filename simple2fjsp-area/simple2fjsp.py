@@ -344,8 +344,8 @@ class JobEnv:
 
 
 if __name__ == '__main__':
-    path = "../MK/"
-    PDR_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO"]
+    path = "../dataset_draw/"
+    PDR_label = ["MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO"]
     # PDR_label = ["SPT", "MWKR", "FDD/MWKR", "MOPNR", "LRM", "FIFO", "LPT", "LWKR", "FDD/LWKR", "LOPNR", "SRM", "LIFO"]
     results = pd.DataFrame(columns=PDR_label, dtype=int)
     for file_name in os.listdir(path):
@@ -359,7 +359,7 @@ if __name__ == '__main__':
                 cnt += 1
                 env.step(pdr)
             case_result.append(str(env.current_time))
-            # env.draw_gantt()
+            env.draw_gantt()
         results.loc[title] = case_result
         print(title + str(case_result))
-    results.to_csv("PDR-MK.csv")
+    results.to_csv("PDR5-MK.csv")
